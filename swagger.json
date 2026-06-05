@@ -1,0 +1,2012 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "权限控制系统API文档",
+    "title": "权限控制系统 API",
+    "contact": {},
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/:menu_id/permissions": {
+      "get": {
+        "description": "获取菜单树 带权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "菜单id",
+            "name": "menu_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "名称",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "编码",
+            "name": "code",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/model.Permission"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/action/info": {
+      "get": {
+        "description": "获取日志详情",
+        "produces": ["application/json"],
+        "summary": "获取日志详情",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "id",
+            "name": "id",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "月份",
+            "name": "month",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/model.ActionDetails"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/action/list": {
+      "get": {
+        "description": "获取日志列表",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "用户id",
+            "name": "user_id",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "路由id",
+            "name": "route_id",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "请求方式",
+            "name": "method",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "开始时间",
+            "name": "start_time",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "结束时间",
+            "name": "end_time",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/model.ActionLists"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/article": {
+      "post": {
+        "description": "创建文章",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "标题",
+            "name": "title",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "文章内容",
+            "name": "content",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "文章摘要",
+            "name": "summary",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "文章封面图",
+            "name": "cover_image",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "文章状态",
+            "name": "status",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "分类id",
+            "name": "category_id",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "系列",
+            "name": "series",
+            "in": "body",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "文章作者",
+            "name": "author",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/article/:id": {
+      "get": {
+        "description": "获取文章详情",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/model.Article"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "编辑文章",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "路由id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "标题",
+            "name": "title",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "标题",
+            "name": "title",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "文章内容",
+            "name": "content",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "文章摘要",
+            "name": "summary",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "文章封面图",
+            "name": "cover_image",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "文章状态",
+            "name": "status",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "分类id",
+            "name": "category_id",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "系列",
+            "name": "series",
+            "in": "body",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "文章作者",
+            "name": "author",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/articles": {
+      "get": {
+        "description": "获取文章列表",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/model.Article"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/menu": {
+      "post": {
+        "description": "新增菜单",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "名称",
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "菜单排序",
+            "name": "menu_sort",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "状态",
+            "name": "menu_status",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "路由",
+            "name": "route",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "权限点",
+            "name": "code",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "描述",
+            "name": "description",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "标识",
+            "name": "flag",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "父级id",
+            "name": "parent_id",
+            "in": "body",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/menu/:id": {
+      "put": {
+        "description": "编辑菜单",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "菜单id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "名称",
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "菜单排序",
+            "name": "menu_sort",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "状态",
+            "name": "menu_status",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "路由",
+            "name": "route",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "权限点",
+            "name": "code",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "描述",
+            "name": "description",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "标识",
+            "name": "flag",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "父级id",
+            "name": "parent_id",
+            "in": "body",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "删除菜单",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "菜单id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/menus": {
+      "get": {
+        "description": "获取菜单树",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/services.MenuTreeItem"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/permission": {
+      "post": {
+        "description": "权限菜单",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "名称",
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "菜单id",
+            "name": "menu_id",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "权限点",
+            "name": "code",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "标识",
+            "name": "flag",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "描述",
+            "name": "description",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/permission/:id": {
+      "get": {
+        "description": "查看权限及附带路由",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "权限id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/model.Permission"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "编辑权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "权限id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "名称",
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "菜单id",
+            "name": "menu_id",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "description": "权限点",
+            "name": "code",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "标识",
+            "name": "flag",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "描述",
+            "name": "description",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "删除权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "权限id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/permission/:id/routes": {
+      "post": {
+        "description": "修改权限路由映射关系",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "权限id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "路由id",
+            "name": "route_ids",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/permissions/tree": {
+      "get": {
+        "description": "获取菜单树 带权限",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/services.MenuTreeItem"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/positions": {
+      "get": {
+        "description": "获取职位下拉数据",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/route": {
+      "post": {
+        "description": "路由菜单",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "名称",
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "请求方式",
+            "name": "method",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "路径",
+            "name": "path",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/route/:id": {
+      "put": {
+        "description": "编辑路由",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "路由id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "名称",
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "请求方式",
+            "name": "method",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "路径",
+            "name": "path",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "删除路由",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "路由id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/routes": {
+      "get": {
+        "description": "路由列表",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "菜单id",
+            "name": "menu_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "名称",
+            "name": "name",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/model.Route"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "post": {
+        "description": "新增用户",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "用户名",
+            "name": "username",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "名称",
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "电话",
+            "name": "tel",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "邮箱",
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "密码",
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/:id": {
+      "get": {
+        "description": "编辑用户",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/model.User"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "编辑用户",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "用户id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "用户名",
+            "name": "username",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "名称",
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "电话",
+            "name": "tel",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "邮箱",
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "密码",
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/:id/data-permission": {
+      "get": {
+        "description": "获取用户数据权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "用户id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/:id/menus": {
+      "get": {
+        "description": "获取用户菜单树 包含拥有的权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "用户id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/services.MenuTreeItem"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/user/:id/permission": {
+      "put": {
+        "description": "编辑用户权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "用户id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "权限id",
+            "name": "permission_ids",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "description": "数据权限",
+            "name": "data_permissions",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/request.DataPermission"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/:id/permissions": {
+      "get": {
+        "description": "获取用户permissions 包含所有权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "用户id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.Response"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/services.MenuTreeItem"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/api/user/:id/status": {
+      "post": {
+        "description": "用户启用禁用",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "用户id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "用户状态",
+            "name": "user_status",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/create-with-permission": {
+      "post": {
+        "description": "获取用户数据权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "user基本信息",
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/request.UserStore"
+            }
+          },
+          {
+            "description": "权限id",
+            "name": "permission_ids",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "description": "数据权限",
+            "name": "data_permissions",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/request.DataPermission"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/get-user-info": {
+      "get": {
+        "description": "获取用户数据",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "description": "手机号码",
+            "name": "mobile",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/permission": {
+      "post": {
+        "description": "新增用户权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "权限id",
+            "name": "permission_ids",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "description": "用户ids",
+            "name": "user_ids",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/permission/delete": {
+      "post": {
+        "description": "批量删除用户权限",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "权限id",
+            "name": "permission_ids",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "description": "用户ids",
+            "name": "user_ids",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/validation": {
+      "post": {
+        "description": "校验用户合法性",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "description": "用户名，多个以英文逗号分隔",
+            "name": "usernames",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/response.Response"
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "description": "获取用户列表",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "description": "用户id字符串",
+            "name": "ids_str",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "用户名",
+            "name": "username",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "用户名（全等匹配）",
+            "name": "usernames_eq",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "名称",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "电话",
+            "name": "tel",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "邮箱",
+            "name": "email",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "权限json字符串",
+            "name": "permission_str",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/response.PageResult"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/model.User"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "model.ActionDetails": {
+      "type": "object",
+      "properties": {
+        "content_type": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "request_content": {
+          "type": "string"
+        },
+        "request_ip": {
+          "type": "string"
+        },
+        "request_method": {
+          "type": "string"
+        },
+        "request_url": {
+          "type": "string"
+        },
+        "route_id": {
+          "type": "integer"
+        },
+        "route_name": {
+          "type": "string"
+        },
+        "route_path": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "user_agent": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer"
+        },
+        "user_name": {
+          "type": "string"
+        }
+      }
+    },
+    "model.ActionLists": {
+      "type": "object",
+      "properties": {
+        "content_type": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "created_time": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "request_ip": {
+          "type": "string"
+        },
+        "request_method": {
+          "type": "string"
+        },
+        "request_url": {
+          "type": "string"
+        },
+        "route_id": {
+          "type": "integer"
+        },
+        "route_name": {
+          "type": "string"
+        },
+        "route_path": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer"
+        },
+        "user_name": {
+          "type": "string"
+        }
+      }
+    },
+    "model.Article": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/model.ArticleCategory"
+        },
+        "category_id": {
+          "type": "integer"
+        },
+        "content": {
+          "$ref": "#/definitions/model.ArticleContent"
+        },
+        "cover_image": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "series": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "model.ArticleCategory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "model.ArticleContent": {
+      "type": "object",
+      "properties": {
+        "article_id": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        }
+      }
+    },
+    "model.DataPermission": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string"
+        },
+        "data_level": {
+          "type": "integer"
+        },
+        "expired_time": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "menu_id": {
+          "type": "integer"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "model.Permission": {
+      "type": "object",
+      "properties": {
+        "checked": {
+          "type": "boolean"
+        },
+        "code": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "menu_id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/model.Route"
+          }
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "model.Route": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "method": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "model.User": {
+      "type": "object",
+      "properties": {
+        "create_time": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "data_permission": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/model.DataPermission"
+          }
+        },
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/model.Permission"
+          }
+        },
+        "tel": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "user_status": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "request.DataPermission": {
+      "type": "object",
+      "properties": {
+        "data_level": {
+          "type": "integer"
+        },
+        "expired_time": {
+          "type": "integer"
+        },
+        "menu_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "request.UserStore": {
+      "type": "object",
+      "required": ["name", "tel", "username"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 25,
+          "minLength": 2
+        },
+        "password": {
+          "type": "string"
+        },
+        "tel": {
+          "type": "string",
+          "maxLength": 11,
+          "minLength": 8
+        },
+        "username": {
+          "type": "string",
+          "maxLength": 25,
+          "minLength": 2
+        }
+      }
+    },
+    "response.PageResult": {
+      "type": "object",
+      "properties": {
+        "current": {
+          "type": "integer"
+        },
+        "list": {},
+        "pageSize": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
+    "response.Response": {
+      "type": "object",
+      "properties": {
+        "data": {},
+        "msg": {
+          "type": "string"
+        }
+      }
+    },
+    "services.MenuTreeItem": {
+      "type": "object",
+      "properties": {
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/services.MenuTreeItem"
+          }
+        },
+        "code": {
+          "type": "string"
+        },
+        "component": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "is_hide": {
+          "type": "integer"
+        },
+        "menu_sort": {
+          "type": "integer"
+        },
+        "menu_status": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parent_id": {
+          "type": "integer"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/model.Permission"
+          }
+        },
+        "route": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
