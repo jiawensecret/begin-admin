@@ -1,0 +1,131 @@
+.article-editor {
+  &.article-editor-fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    overflow: auto;
+    padding: 16px;
+    background: #0f0f0f;
+
+    .ant-page-header,
+    .ant-pro-page-container-warp {
+      display: none;
+    }
+
+    .article-editor-card {
+      display: flex;
+      flex-direction: column;
+      max-width: none !important;
+      height: calc(100vh - 32px);
+      margin: 0 !important;
+      border-radius: 6px;
+    }
+
+    .ant-pro-card-body {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+    }
+
+    .article-editor-body {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .article-editor-frame {
+      height: 100%;
+      min-height: 0;
+    }
+
+    .md-editor {
+      min-height: 0 !important;
+    }
+  }
+
+  .article-editor-card {
+    .ant-pro-card-body {
+      padding: 0;
+    }
+  }
+
+  .article-editor-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #303030;
+  }
+
+  .article-editor-body {
+    padding: 20px;
+  }
+
+  .article-editor-frame {
+    overflow: hidden;
+    border: 1px solid #303030;
+    border-radius: 6px;
+    background: #0f1117;
+  }
+
+  .md-editor,
+  .md-editor-content,
+  .md-editor-content-editor,
+  .md-editor-inner,
+  .cm-editor,
+  .cm-scroller,
+  .wmde-markdown {
+    min-height: 0;
+  }
+
+  .md-editor-content,
+  .cm-scroller,
+  .md-editor-preview {
+    overflow: scroll !important;
+  }
+
+  .md-editor {
+    --color-canvas-default: #0f1117;
+    --color-canvas-subtle: #161b22;
+    --color-border-default: #30363d;
+    --color-fg-default: #f0f3f6;
+    --color-fg-muted: #8b949e;
+
+    box-shadow: none;
+  }
+
+  .md-editor-inner,
+  .wmde-markdown,
+  .cm-content,
+  .cm-line {
+    font-size: 17px !important;
+    line-height: 1.75 !important;
+  }
+
+  .cm-scroller {
+    scrollbar-gutter: stable;
+  }
+
+  .cm-content {
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .cm-line {
+    white-space: pre !important;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .md-editor-toolbar {
+    min-height: 38px;
+    border-color: #30363d;
+  }
+
+  .md-editor-toolbar li > button {
+    height: 30px;
+    min-width: 30px;
+  }
+}

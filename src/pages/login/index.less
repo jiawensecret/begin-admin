@@ -1,0 +1,114 @@
+.loginPage {
+  min-height: 100vh;
+  background: linear-gradient(
+      135deg,
+      rgba(20, 36, 51, 94%),
+      rgba(12, 16, 24, 96%)
+    ),
+    radial-gradient(circle at 78% 18%, rgba(39, 174, 96, 26%), transparent 34%),
+    #111827;
+}
+
+.loginShell {
+  display: grid;
+  grid-template-columns: minmax(320px, 480px) minmax(420px, 1fr);
+  min-height: 100vh;
+}
+
+.brandPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 56px 48px;
+  color: #fff;
+  background: rgba(255, 255, 255, 4%);
+  border-right: 1px solid rgba(255, 255, 255, 8%);
+}
+
+.brandTitle {
+  margin: 0;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.35;
+}
+
+.brandMeta {
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 64%);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.statusList {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  color: rgba(255, 255, 255, 78%);
+  background: rgba(255, 255, 255, 6%);
+  border: 1px solid rgba(255, 255, 255, 8%);
+  border-radius: 8px;
+}
+
+.statusValue {
+  color: #74d99f;
+}
+
+.formPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.formBox {
+  width: 420px;
+  max-width: 100%;
+  padding: 40px;
+  background: rgba(255, 255, 255, 98%);
+  border: 1px solid rgba(15, 23, 42, 8%);
+  border-radius: 8px;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 28%);
+}
+
+.formTitle {
+  margin: 0 0 6px;
+  color: #111827;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.formSubTitle {
+  margin: 0 0 28px;
+  color: #64748b;
+}
+
+.submitButton {
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .loginShell {
+    grid-template-columns: 1fr;
+  }
+
+  .brandPanel {
+    min-height: 260px;
+    padding: 32px 24px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 8%);
+  }
+
+  .formPanel {
+    align-items: flex-start;
+    padding: 24px;
+  }
+}
