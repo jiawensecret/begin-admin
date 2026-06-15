@@ -47,9 +47,9 @@ export const request: RequestConfig = {
       },
       (error: any) => {
         const { status } = error.response || {};
-        if (status === 403) {
+        if (status === 403 && window.location.pathname !== '/login') {
           clearToken();
-          window.location.href = '/login';
+          history.replace('/login');
         }
         return Promise.reject(error);
       },
@@ -118,6 +118,13 @@ export const layout: RunTimeLayoutConfig = () => {
     },
     menu: {
       request: async () => {
+        if (
+          window.location.pathname === '/login' ||
+          !getToken() ||
+          isTokenExpired()
+        ) {
+          return [];
+        }
         const menuData = await services.GlobalController.getMenus();
         return filterRemovedMenus(menuData.data);
       },
