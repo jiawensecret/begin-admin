@@ -6,7 +6,7 @@ export type LoginParams = {
 };
 
 export async function login(params: LoginParams) {
-  return request<Common.Result<string>>('/login', {
+  return request<Common.Result<string>>('/api/login', {
     method: 'POST',
     data: params,
   });

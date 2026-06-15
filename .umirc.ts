@@ -18,10 +18,6 @@ export default defineConfig({
   mfsu: false,
   esbuildMinifyIIFE: true,
   proxy: {
-    '/login': {
-      target: 'http://10.100.1.152:8002/',
-      changeOrigin: true,
-    },
     '/logout': {
       target: 'http://10.100.1.152:8002/',
       changeOrigin: true,

@@ -1,4 +1,5 @@
 // 运行时配置
+import appLogo from '@/assets/app-logo.png';
 import services from '@/services/global';
 import {
   clearToken,
@@ -94,7 +95,20 @@ const filterRemovedMenus = (menus: Common.Menu[] = []): Common.Menu[] => {
 };
 
 export const layout: RunTimeLayoutConfig = () => {
+  const isLogin = window.location.pathname === '/login';
+
   return {
+    logo: appLogo,
+    ...(isLogin
+      ? {
+          menuRender: false,
+          headerRender: false,
+          footerRender: false,
+          menuHeaderRender: false,
+          siderWidth: 0,
+          pageTitleRender: false,
+        }
+      : {}),
     onPageChange: () => {
       const { pathname } = window.location;
       if (pathname !== '/login' && (!getToken() || isTokenExpired())) {
