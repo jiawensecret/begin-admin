@@ -1,14 +1,9 @@
+import appLogo from '@/assets/app-logo.png';
 import { login } from '@/services/login/LoginController';
 import { getToken, isTokenExpired, setToken } from '@/utils/auth';
-import { LockOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
-import {
-  ProForm,
-  ProFormCheckbox,
-  ProFormText,
-} from '@ant-design/pro-components';
 import { history, useModel } from '@umijs/max';
-import { Button, message } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { message } from 'antd';
+import React, { FormEvent, useEffect, useState } from 'react';
 import styles from './index.less';
 
 type LoginForm = {
@@ -18,7 +13,13 @@ type LoginForm = {
 };
 
 const LoginPage: React.FC = () => {
+  const [form, setForm] = useState<LoginForm>({
+    username: '',
+    password: '',
+    remember: false,
+  });
   const [submitting, setSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { setInitialState } = useModel('@@initialState');
 
   useEffect(() => {
@@ -27,12 +28,23 @@ const LoginPage: React.FC = () => {
     }
   }, []);
 
-  const handleSubmit = async (values: LoginForm) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!form.username.trim()) {
+      message.warning('请输入账号');
+      return;
+    }
+    if (!form.password) {
+      message.warning('请输入密码');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const res = await login({
-        username: values.username,
-        password: values.password,
+        username: form.username.trim(),
+        password: form.password,
       });
       const token = typeof res.data === 'string' ? res.data : '';
       if (!token) {
@@ -51,77 +63,123 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.loginPage}>
-      <div className={styles.loginShell}>
-        <section className={styles.brandPanel}>
-          <div>
-            <h1 className={styles.brandTitle}>综合管理后台</h1>
-            <div className={styles.brandMeta}>
-              RBAC 权限控制、活动运营、赛程竞猜与奖品发放统一管理。
-            </div>
+    <main className={styles.loginScreen} aria-label="后台管理系统登录页">
+      <div className={`${styles.ambient} ${styles.ambientLeft}`} />
+      <div className={`${styles.ambient} ${styles.ambientRight}`} />
+
+      <section className={styles.loginPanel} aria-labelledby="login-title">
+        <div className={styles.brandMark} aria-hidden="true">
+          <img className={styles.brandLogo} src={appLogo} alt="" />
+        </div>
+
+        <header className={styles.panelHeader}>
+          <p className={styles.eyebrow}>ADMIN CONSOLE</p>
+          <h1 id="login-title" className={styles.title}>
+            后台管理系统
+          </h1>
+          <div className={styles.titleRule} aria-hidden="true">
+            <span />
           </div>
-          <ul className={styles.statusList}>
-            <li className={styles.statusItem}>
-              <span>鉴权方式</span>
-              <span className={styles.statusValue}>JWT</span>
-            </li>
-            <li className={styles.statusItem}>
-              <span>菜单来源</span>
-              <span className={styles.statusValue}>RBAC</span>
-            </li>
-            <li className={styles.statusItem}>
-              <span>接口前缀</span>
-              <span className={styles.statusValue}>/api</span>
-            </li>
-          </ul>
-        </section>
-        <main className={styles.formPanel}>
-          <div className={styles.formBox}>
-            <h2 className={styles.formTitle}>登录</h2>
-            <p className={styles.formSubTitle}>使用后台账号进入管理系统</p>
-            <ProForm<LoginForm>
-              submitter={{
-                render: () => (
-                  <Button
-                    className={styles.submitButton}
-                    type="primary"
-                    htmlType="submit"
-                    loading={submitting}
-                    icon={<LoginOutlined />}
-                    size="large"
-                  >
-                    登录
-                  </Button>
-                ),
-              }}
-              onFinish={handleSubmit}
-            >
-              <ProFormText
+        </header>
+
+        <form className={styles.loginForm} onSubmit={handleSubmit}>
+          <label className={styles.field}>
+            <span className={styles.labelText}>账号</span>
+            <span className={styles.inputShell}>
+              <span
+                className={`${styles.fieldIcon} ${styles.accountIcon}`}
+                aria-hidden="true"
+              />
+              <input
+                type="text"
                 name="username"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <UserOutlined />,
-                  autoComplete: 'username',
-                }}
-                placeholder="用户名或手机号"
-                rules={[{ required: true, message: '请输入用户名或手机号' }]}
+                value={form.username}
+                placeholder="请输入账号"
+                autoComplete="username"
+                onChange={(event) =>
+                  setForm((value) => ({
+                    ...value,
+                    username: event.target.value,
+                  }))
+                }
               />
-              <ProFormText.Password
+            </span>
+          </label>
+
+          <label className={styles.field}>
+            <span className={styles.labelText}>密码</span>
+            <span className={styles.inputShell}>
+              <span
+                className={`${styles.fieldIcon} ${styles.passwordIcon}`}
+                aria-hidden="true"
+              />
+              <input
+                type={showPassword ? 'text' : 'password'}
                 name="password"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined />,
-                  autoComplete: 'current-password',
-                }}
-                placeholder="密码"
-                rules={[{ required: true, message: '请输入密码' }]}
+                value={form.password}
+                placeholder="请输入密码"
+                autoComplete="current-password"
+                onChange={(event) =>
+                  setForm((value) => ({
+                    ...value,
+                    password: event.target.value,
+                  }))
+                }
               />
-              <ProFormCheckbox name="remember">保持登录</ProFormCheckbox>
-            </ProForm>
+              <button
+                className={styles.ghostButton}
+                type="button"
+                aria-label="显示或隐藏密码"
+                onClick={() => setShowPassword((value) => !value)}
+              >
+                {showPassword ? '隐藏' : '显示'}
+              </button>
+            </span>
+          </label>
+
+          <div className={styles.formOptions}>
+            <label className={styles.remember}>
+              <input
+                type="checkbox"
+                name="remember"
+                checked={form.remember}
+                onChange={(event) =>
+                  setForm((value) => ({
+                    ...value,
+                    remember: event.target.checked,
+                  }))
+                }
+              />
+              <span>记住我</span>
+            </label>
+            <a
+              href="#"
+              aria-label="找回密码"
+              onClick={(event) => event.preventDefault()}
+            >
+              忘记密码
+            </a>
           </div>
-        </main>
-      </div>
-    </div>
+
+          <button
+            className={styles.loginButton}
+            type="submit"
+            disabled={submitting}
+          >
+            {submitting ? '登录中...' : '登录'}
+          </button>
+        </form>
+
+        <footer className={styles.panelFooter} aria-label="系统状态">
+          <span className={styles.miniShield} aria-hidden="true" />
+          <span>安全</span>
+          <span className={styles.dot} aria-hidden="true" />
+          <span>稳定</span>
+          <span className={styles.dot} aria-hidden="true" />
+          <span>高效</span>
+        </footer>
+      </section>
+    </main>
   );
 };
 
